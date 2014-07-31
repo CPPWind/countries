@@ -6,9 +6,29 @@ describe ISO3166::Country do
 
   let(:country) { ISO3166::Country.search('US') }
 
+
+
+  describe "cpp country codes" do
+    shared_examples "country code" do |codes_array|
+      codes_array.each do |cpp_country_code|
+        let(:country2) { ISO3166::Country.search(cpp_country_code) }
+        it 'allows to create a country object from a alpha2 code' do
+          country2 = described_class.new(cpp_country_code)
+          country2.data.should_not be_nil
+        end
+      end
+    end
+
+      it_should_behave_like "country code", cpp_country_codes
+
+  end
+
+
+
+
   it 'allows to create a country object from a symbol representation of the alpha2 code' do
     country = described_class.new(:us)
-    country.data.should_not be_nil
+    country.data.should_not
   end
 
   it 'allows to create a country object from a lowercase alpha2 code' do
